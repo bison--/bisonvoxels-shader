@@ -1,0 +1,58 @@
+// xs_begin
+// author : 'bison'
+// xs_end
+
+// Shiftting down impending voxel with given colors
+// Select all colors in the color palette you want to drop
+// type in magicavoxel console: xs bisonvoxels-shader/dropx
+
+// based on CodingEric's version: https://github.com/CodingEric/Erics-MagicaVoxel-Shaders/blob/master/shader/drop.txt
+// find this on github: https://github.com/bison--/bisonvoxels-shader
+
+
+bool isSelectedColor(float _color) {
+    for (int i = 0; i < i_num_color_sels; i += 1) {
+        if (_color == color_sel(float(i))) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+float getPreviousColor(vec3 _v) {
+    vec3 previousPosition = vec3(_v.x, _v.y, _v.z + 1.);
+    return voxel(previousPosition);
+}
+
+bool canMove(vec3 _v) {
+    float previousColor = getPreviousColor(_v);
+    float currentColor = voxel(_v);
+    if (isSelectedColor(previousColor) && currentColor == 0.) {
+        return true;
+    }
+
+    // TODO: make blocks move witout empty space
+
+    return false;
+}
+
+bool isNextEmpty(vec3 _v) {
+    return (voxel(vec3(_v.x, _v.y, _v.z-1.)) == 0.);
+}
+
+float map(vec3 v) {
+    float currentColor = voxel(v);
+
+    if (isSelectedColor(currentColor) && isNextEmpty(v)) {
+        // if current color is selected AND next is empty, delete current color
+        // it will be re-set in the next oteration
+        return 0.;
+    } else if (canMove(v)) {
+        // set the color we peviously removed at the new position
+        return getPreviousColor(v);
+    }
+
+    // leave this voxel alone
+    return currentColor;
+}
