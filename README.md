@@ -15,9 +15,9 @@ xs filenameWithoutExtension
 ```
 
 
-### drop
+### dropx
 
-Shiftting down impending voxel with given colors  
+Shiftting down voxels with given colors  
 Select all colors in the color palette you want to drop  
 
 Type in the MagicaVoxel console:

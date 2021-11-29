@@ -2,7 +2,7 @@
 // author : 'bison'
 // xs_end
 
-// Shiftting down impending voxel with given colors
+// Shiftting down voxels with given colors
 // Select all colors in the color palette you want to drop
 // type in magicavoxel console: xs bisonvoxels-shader/dropx
 
@@ -46,7 +46,7 @@ float map(vec3 v) {
 
     if (isSelectedColor(currentColor) && isNextEmpty(v)) {
         // if current color is selected AND next is empty, delete current color
-        // it will be re-set in the next oteration
+        // it will be re-set in the next iteration
         return 0.;
     } else if (canMove(v)) {
         // set the color we peviously removed at the new position
